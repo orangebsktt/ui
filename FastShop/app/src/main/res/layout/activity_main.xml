@@ -24,12 +24,10 @@
         tools:ignore="MissingConstraints" />
 
     <Button
-            android:id="@+id/read_data"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Veri Oku"
-            android:textColor="@color/white"
-            tools:ignore="MissingConstraints" />
+        android:id="@+id/qrButton"
+        android:layout_width="152dp"
+        android:layout_height="wrap_content"
+        android:text="QR Code Oku" />
 
     <TextView
         android:id="@+id/nfc_contents"

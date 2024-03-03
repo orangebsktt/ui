@@ -1,5 +1,6 @@
 package com.hackathon.fastshop;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.PendingIntent;
@@ -21,12 +22,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Dictionary;
-import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,15 +47,18 @@ public class MainActivity extends AppCompatActivity {
     Button read_data;
     Dictionary<String, IntentData> intents = new Hashtable<>();
 
+    Button qrButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        edit_message = (TextView) findViewById(R.id.edit_message);
         nfc_contents = (TextView) findViewById(R.id.nfc_contents);
         activate_button = findViewById(R.id.activate_button);
-        read_data = findViewById(R.id.read_data);
+
         context = this;
+        ApiCaller a = new ApiCaller();
+        a.getData(context, 3);
         activate_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,6 +78,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         readData();
+
+        qrButton = findViewById(R.id.qrButton);
+        qrButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
+                integrator.setOrientationLocked(true);
+                integrator.setPrompt("Scan a QR Code");
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+                integrator.initiateScan();
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode,resultCode,data);
+
+        if(result == null || result.getContents() == null) {
+            super.onActivityResult(requestCode, resultCode, data);
+            return;
+        }
+
+        nfc_contents.setText(result.getContents());
     }
 
     public String readData() {
