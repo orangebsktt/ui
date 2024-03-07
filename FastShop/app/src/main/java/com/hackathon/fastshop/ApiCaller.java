@@ -17,11 +17,11 @@ public class ApiCaller {
     private StringRequest mStringRequest;
     private String url = "https://jsonplaceholder.typicode.com/todos/1";
 
-    ApiCaller(){
+    public ApiCaller(){
         this.url = "https://jsonplaceholder.typicode.com/todos/1";
     }
 
-    ApiCaller(String url){
+    public ApiCaller(String url){
         this.url = url;
     }
 
