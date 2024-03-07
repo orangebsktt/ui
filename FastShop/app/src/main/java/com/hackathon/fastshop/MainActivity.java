@@ -27,6 +27,7 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -41,11 +42,9 @@ public class MainActivity extends AppCompatActivity {
     boolean writeMode;
     Tag myTag;
     Context context;
-    TextView edit_message;
     TextView nfc_contents;
-    Button activate_button;
-    Button read_data;
     Dictionary<String, IntentData> intents = new Hashtable<>();
+    Dictionary<String, ProductData> products = new Hashtable<>();
 
     Button qrButton;
 
@@ -53,13 +52,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        nfc_contents = (TextView) findViewById(R.id.nfc_contents);
-        activate_button = findViewById(R.id.activate_button);
+        generateProducts();
+        //activate_button = findViewById(R.id.activate_button);
 
         context = this;
         ApiCaller a = new ApiCaller();
         a.getData(context, 3);
-        activate_button.setOnClickListener(new View.OnClickListener() {
+        /*activate_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(context, WRITE_ERROR, Toast.LENGTH_LONG).show(); e.printStackTrace();
                 }
             }
-        });
+        });*/
         readData();
 
         qrButton = findViewById(R.id.qrButton);
@@ -102,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        nfc_contents.setText(result.getContents());
+        //nfc_contents.setText(result.getContents());
+        Toast.makeText(context, "Qr Content :" + result.getContents(), Toast.LENGTH_LONG).show();//display the response on screen
     }
 
     public String readData() {
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
         myTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         String data = readFromIntent(intent);
         intents.put(bytesToHexString(myTag.getId()), new IntentData(bytesToHexString(myTag.getId()), data));
-
+        Toast.makeText(context, "RFID Content : " + data, Toast.LENGTH_LONG).show();//display the response on screen
     }
 
     @Override
@@ -273,6 +273,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return stringBuilder.toString();
+    }
+
+    private void generateProducts(){
+        products.put("0x39f52c7d", new ProductData("0x39f52c7d", "Bere", BigDecimal.valueOf(75)));
+        products.put("0x39e8337d", new ProductData("0x39e8337d", "Canta", BigDecimal.valueOf(125)));
+        products.put("0x49ccd87d", new ProductData("0x49ccd87d", "Bot", BigDecimal.valueOf(2775)));
+        products.put("0xa7b43e65", new ProductData("0xa7b43e65", "Atki", BigDecimal.valueOf(125)));
+        products.put("0xc712b865", new ProductData("0xc712b865", "Tshirt", BigDecimal.valueOf(250)));
     }
 
 }

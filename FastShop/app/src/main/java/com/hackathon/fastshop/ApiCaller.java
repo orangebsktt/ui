@@ -36,7 +36,7 @@ public class ApiCaller {
             @Override
             public void onResponse(String response) {
                 System.out.println(response);
-                //Toast.makeText(ctx.getApplicationContext(), "Response :" + response.toString(), Toast.LENGTH_LONG).show();//display the response on screen
+                Toast.makeText(ctx.getApplicationContext(), "Response :" + response.toString(), Toast.LENGTH_LONG).show();//display the response on screen
             }
         }, new Response.ErrorListener() {
             @Override
