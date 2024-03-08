@@ -1,12 +1,12 @@
-package com.hackathon.fastshop;
+package com.hackathon.fastshop.dto;
 
-public class IntentData {
+public class IntentDto {
     private String intentId;
     private String data;
 
-    public IntentData(){};
+    public IntentDto(){};
 
-    public IntentData(String intentId, String data) {
+    public IntentDto(String intentId, String data) {
         this.intentId = intentId;
         this.data = data;
     }

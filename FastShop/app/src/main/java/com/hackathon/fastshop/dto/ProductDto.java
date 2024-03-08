@@ -1,15 +1,15 @@
-package com.hackathon.fastshop;
+package com.hackathon.fastshop.dto;
 
 import java.math.BigDecimal;
 
-public class ProductData {
+public class ProductDto {
     private String id;
     private String name;
     private BigDecimal price;
 
-    public ProductData(){};
+    public ProductDto(){};
 
-    public ProductData(String id, String name, BigDecimal price) {
+    public ProductDto(String id, String name, BigDecimal price) {
         this.id = id;
         this.name = name;
         this.price = price;
